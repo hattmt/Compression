@@ -1,0 +1,4 @@
+﻿  main.c
+D:\programming\Compression\compression\main.c(12,8): warning C4013: 'memcpy' non défini(e) ; extern retournant int pris par défaut
+D:\programming\Compression\compression\main.c(32,20): warning C4018: '<' : incompatibilité signed/unsigned
+  compression.vcxproj -> D:\programming\Compression\x64\Debug\compression.exe
