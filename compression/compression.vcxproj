@@ -141,8 +141,8 @@
   <ItemGroup>
     <ClInclude Include="compression.h" />
     <ClInclude Include="decompression.h" />
-    <ClInclude Include="types.h" />
     <ClInclude Include="miniz.h" />
+    <ClInclude Include="types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compression.c" />

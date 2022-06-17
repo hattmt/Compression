@@ -1,6 +1,6 @@
 #include "decompression.h"
 #include "miniz.h"
-
+#include <assert.h>
 
 typedef struct
 {
@@ -43,14 +43,14 @@ int8_t decompression_input_buffer(uint8_t* data, uint32_t size)
 	do {
 		ctx.stream.avail_out = DECOMPRESSION_BUFFER_OUTPUT_SIZE;
 		ctx.stream.next_out = ctx.out_buff;
-		status = inflate(&ctx.stream, MZ_NO_FLUSH);
+		status = inflate(&ctx.stream, Z_NO_FLUSH);
 
 		switch (status) 
 		{
 		case Z_NEED_DICT:
 		case Z_DATA_ERROR:
 		case Z_MEM_ERROR:
-			(void)inflateEnd(&ctx.stream);
+ 			(void)inflateEnd(&ctx.stream);
 			return -1;
 		}
 
@@ -76,11 +76,12 @@ int8_t decompression_input_buffer(uint8_t* data, uint32_t size)
 		//decompression terminée
 		if (status == Z_STREAM_END)
 		{
-			(*ctx.cb)(ctx.out_buff_acc, ctx.acc_cntr);
+			(ctx.cb)(ctx.out_buff_acc, output_size);
 			return 0;
 		}
 
-	} while (ctx.stream.avail_out == 0);
+	} while (ctx.stream.avail_out == 0 || ctx.stream.avail_in != 0);
+
 }
 
 void decompression_deinit(void)
